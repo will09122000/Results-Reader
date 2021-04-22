@@ -5,7 +5,7 @@ Reads results from a screenshot of the DiRT Rally 2.0 website and converts to a 
 
 How to run:
 
-1. Install Python 3
+1. Install Python 3\
    https://www.python.org/downloads/
 2. Install packages\
    `pip install opencv-python`\
