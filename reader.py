@@ -26,27 +26,31 @@ def read_image(stage_num):
     img = cv2.imread(img_path)
 
     # Convert to black and white
-    gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    gray, img_bin = cv2.threshold(gray,128,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-    gray = cv2.bitwise_not(img_bin)
+    try:
+        grey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+        grey, img_bin = cv2.threshold(grey, 128,255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        grey = cv2.bitwise_not(img_bin)
+    except:
+        print("Error: Cannot read file: " + str(stage_num) + ".png")
+        exit()
+    else:
+        # Read text from image
+        kernel = np.ones((2, 1), np.uint8)
+        img = cv2.erode(grey, kernel, iterations=1)
+        img = cv2.dilate(img, kernel, iterations=1)
+        pytesseract.pytesseract.tesseract_cmd = (r'C:\Program Files\Tesseract-OCR\tesseract.exe')
+        out_below = pytesseract.image_to_string(img)
 
-    # Read text from image
-    kernel = np.ones((2, 1), np.uint8)
-    img = cv2.erode(gray, kernel, iterations=1)
-    img = cv2.dilate(img, kernel, iterations=1)
-    pytesseract.pytesseract.tesseract_cmd = (r'C:\Program Files\Tesseract-OCR\tesseract.exe')
-    out_below = pytesseract.image_to_string(img)
+        # Remove blanks
+        words = list(filter(None, out_below.split('\n')))
 
-    # Remove blanks
-    words = list(filter(None, out_below.split('\n')))
+        # Get number of entries
+        num_entries = 0
+        for word in words:
+            if ":" in word and "." in word:
+                num_entries += 1
 
-    # Get number of entries
-    num_entries = 0
-    for word in words:
-        if ":" in word and "." in word:
-            num_entries += 1
-
-    return words, num_entries
+        return words, num_entries
 
 def format_data(words, num_entries):
 
