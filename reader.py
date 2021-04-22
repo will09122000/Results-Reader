@@ -22,7 +22,7 @@ def main():
 
 def read_image(stage_num):
     # Get stage screenshot
-    img_path = r"C:\Users\will0\Documents\GitHub\Results-Reader\stages\{}.png".format(stage_num)
+    img_path = r".\stages\{}.png".format(stage_num)
     img = cv2.imread(img_path)
 
     # Convert to black and white
