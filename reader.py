@@ -25,8 +25,9 @@ def read_image(stage_num):
     img_path = r".\stages\{}.png".format(stage_num)
     img = cv2.imread(img_path)
 
-    # Convert to black and white
+    
     try:
+        # Convert to black and white
         grey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         grey, img_bin = cv2.threshold(grey, 128,255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
         grey = cv2.bitwise_not(img_bin)
