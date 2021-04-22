@@ -4,7 +4,7 @@ import numpy as np
 import pandas
 
 def main():
-
+    # Iterate through each stage
     for stage_num in range(1, 6):
         words, num_entries = read_image(stage_num)
 
@@ -23,12 +23,10 @@ def main():
 
 
 def read_image(stage_num):
-
     # Get stage screenshot
     img_path = r".\stages\{}.png".format(stage_num)
     img = cv2.imread(img_path)
 
-    
     try:
         # Convert to black and white
         grey = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
@@ -58,8 +56,7 @@ def read_image(stage_num):
 
 
 def format_data(words, num_entries):
-
-    # Split list
+    # Split word list
     drivers = words[1:num_entries+1]
     vehicles = words[num_entries+2:num_entries*2+2]
     times = words[num_entries*2+3:num_entries*3+3]
