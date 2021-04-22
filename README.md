@@ -1,4 +1,4 @@
-# Results-Reader
+# Rally Results Reader
 
 How to run:
 
