@@ -4,6 +4,7 @@ import numpy as np
 import pandas
 
 def main():
+
     for stage_num in range(1, 6):
         words, num_entries = read_image(stage_num)
 
@@ -20,7 +21,9 @@ def main():
 
         print("Successfully created CSV file for stage " + str(stage_num))
 
+
 def read_image(stage_num):
+
     # Get stage screenshot
     img_path = r".\stages\{}.png".format(stage_num)
     img = cv2.imread(img_path)
@@ -52,6 +55,7 @@ def read_image(stage_num):
                 num_entries += 1
 
         return words, num_entries
+
 
 def format_data(words, num_entries):
 
