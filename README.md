@@ -14,4 +14,4 @@ How to run:
 3. Download Tesseract and install to 'Program Files'\
    https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.0.0-alpha.20201127.exe
 4. Make sure results screenshots are in the screenshots folder named 1 to 5 (.png) and cropped in the same way the above screenshot is
-5. To run program: `python3 reader.py`
+5. To run program: `python reader.py`
