@@ -6,12 +6,18 @@ import pandas
 def main():
     # Iterate through each stage
     for stage_num in range(1, 6):
+        # Get list of words and number of entries
         words, num_entries = read_image(stage_num)
 
+        # Format words into respective columns
         drivers, vehicles, times = format_data(words, num_entries)
+
+        # Get country of each driver
+        countries = get_countries(drivers)
 
         # Write to CSV
         df = pandas.DataFrame(data={
+                                    "country": countries,
                                     "driver": drivers,
                                     "vehicle": vehicles,
                                     "stage": times
@@ -19,8 +25,7 @@ def main():
         file_path = "./results/{}.csv".format(stage_num)
         df.to_csv(file_path, sep=',', index=False)
 
-        print("Successfully created CSV file for stage " + str(stage_num))
-
+        print("Created CSV file for stage " + str(stage_num))
 
 def read_image(stage_num):
     try:
@@ -30,7 +35,7 @@ def read_image(stage_num):
         img = cv2.resize(img, None, fx=5, fy=5)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     except:
-        print("Error: Cannot read file: " + str(stage_num) + ".png")
+        print("Error: Cannot read file: '" + str(stage_num) + ".png' from the screenshots folder")
         exit()
     else:
         # Read text from image
@@ -41,14 +46,13 @@ def read_image(stage_num):
         # Remove blanks
         words = list(filter(None, output.split('\n')))
 
+        if words[0] != "IVER":
+            words.insert(0, "IVER")
+
         # Get number of entries
-        num_entries = 0
-        for word in words:
-            if ":" in word and "." in word:
-                num_entries += 1
-
+        num_entries = int((len(words) - 4) / 3)
+        #print(words, str(len(words)))
         return words, num_entries
-
 
 def format_data(words, num_entries):
     # Split word list
@@ -76,6 +80,8 @@ def format_data(words, num_entries):
             drivers[i] = "Dropi"
         elif "DIEGO" in drivers[i]:
             drivers[i] = "Diego_Domo2"
+        elif "TOMD" in drivers[i]:
+            drivers[i] = "TomD13"
         else:
             drivers[i] = drivers[i].title()
 
@@ -90,13 +96,44 @@ def format_data(words, num_entries):
     # Fix stage times
     for i in range(len(times)):
         times[i] = times[i].replace("/", "")
-        if (len(times[i]) > 9):
+        if (len(times[i]) == 10):
             times[i] = times[i][0:-1]
-        elif (len(times[i]) < 9) or ":" not in times[i] or "." not in times[i]:
+        elif " " in times[i] and len(times[i]) == 9 and not times[i].lower().islower():
+            times[i] = times[i].replace(" ", ".")
+        elif (len(times[i]) != 9) or times[i].lower().islower():
             print("INACCURACY: The stage time '" + times[i] + "' is incorrect at row "
                   + str(i+1) + " for the CSV file below")
 
     return drivers, vehicles, times
+
+def get_countries(drivers):
+    countries = []
+    country = {
+        "Mr. Beletal": "United-Kingdom",
+        "Will0912": "United-Kingdom",
+        "L1GHTN1NG14": "Republic-of-Poland",
+        "XSempiternal012": "United-Kingdom",
+        "V.Mushroom": "Slovenia",
+        "Calli": "Germany",
+        "Suk Min Dik": "Germany",
+        "Dropi": "Finland",
+        "Diego_Domo2": "Spain",
+        "TomD13": "United-Kingdom",
+        "Mariussenn": "Sweden",
+        "Schooneman": "Netherlands",
+        "Annalise Riot": "United-States-Of-America",
+        "Nick_H": "England",
+        "Dattebayo": "Germany"
+    }
+
+    # Try to find driver in the above dictionary and add to the countries list
+    for driver in drivers:
+        try:
+            countries.append(country[driver])
+        except:
+            countries.append("")
+
+    return countries
 
 if __name__ == "__main__":
     main()
