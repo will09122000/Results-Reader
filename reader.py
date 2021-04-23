@@ -79,7 +79,7 @@ def format_data(words, num_entries):
         elif "DROP" in drivers[i]:
             drivers[i] = "Dropi"
         elif "DIEGO" in drivers[i]:
-            drivers[i] = "Diego_Domo2"
+            drivers[i] = "Diego_Dom02"
         elif "TOMD" in drivers[i]:
             drivers[i] = "TomD13"
         else:
