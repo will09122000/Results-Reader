@@ -1,11 +1,2 @@
-
-results/1.csv
-results/2.csv
-results/3.csv
-results/4.csv
-results/5.csv
-screenshots/1.png
-screenshots/2.png
-screenshots/3.png
-screenshots/4.png
-screenshots/5.png
+*.csv
+*.png

@@ -82,6 +82,8 @@ def format_data(words, num_entries):
             drivers[i] = "Diego_Dom02"
         elif "TOMD" in drivers[i]:
             drivers[i] = "TomD13"
+        elif "NICK" in drivers[i]:
+            drivers[i] = "Nick_H"
         else:
             drivers[i] = drivers[i].title()
 
